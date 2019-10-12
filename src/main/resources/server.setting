@@ -1,0 +1,19 @@
+{
+    "port": 80,
+    "hosts": [
+        {
+            "name": "default",
+            "httpRoot": "~/",
+            "doc403": "",
+            "doc404": "",
+            "doc500": ""
+        },
+        {
+            "name": "a.com",
+            "httpRoot": "~/",
+            "doc403": "",
+            "doc404": "",
+            "doc500": ""
+        }
+    ]
+}
