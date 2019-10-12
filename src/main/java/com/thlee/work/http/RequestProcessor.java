@@ -1,11 +1,9 @@
 package com.thlee.work.http;
 
-import java.io.BufferedOutputStream;
-import java.io.BufferedWriter;
-import java.io.File;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
 
@@ -15,7 +13,7 @@ import com.thlee.work.model.ServerSetting;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class RequestProcessor implements Runnable {
+public class RequestProcessor extends Thread {
 
     private static final String OUTPUT = "<html><head><title>Example</title></head><body><p>Worked!!!</p></body></html>";
     private static final String OUTPUT_HEADERS = "HTTP/1.1 200 OK\r\n" +
@@ -35,17 +33,40 @@ public class RequestProcessor implements Runnable {
 
     @Override
     public void run() {
-        try {
-            HttpRequest httpRequest = HttpRequestParser.parseHttpRequest(request);
-            log.info(httpRequest.toString());
 
-            OutputStream outputStream = request.getOutputStream();
-            PrintWriter pw = new PrintWriter(outputStream, true);
-            // native line endings are uncertain so add them manually
-            pw.print("GET " + " HTTP/1.0\r\n");
-            pw.print("Accept: text/plain, text/html, text/*\r\n");
-            pw.print("\r\n");
-            pw.flush();
+        // Http Method, URI, Host 정보를 획득한다
+        HttpRequest httpRequest = null;
+        PrintWriter out;
+        BufferedReader in;
+
+        try {
+            out = new PrintWriter(request.getOutputStream(), true);
+            in = new BufferedReader(
+                new InputStreamReader(request.getInputStream()));
+
+            httpRequest = HttpRequestParser.parseHttpRequest(request.getInputStream());
+            log.info(httpRequest.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+            ErrorHandler.handleErrorResponse(httpRequest, serverSetting, request, 500);
+            return;
+        }
+
+        try {
+
+            // Servlet Mapping 확인
+
+            // 403, 404 여부 체크
+
+            ErrorHandler.handleErrorResponse(httpRequest, serverSetting, request, 403);
+
+//            OutputStream outputStream = request.getOutputStream();
+//            PrintWriter pw = new PrintWriter(outputStream, true);
+//            // native line endings are uncertain so add them manually
+//            pw.print("GET " + " HTTP/1.0\r\n");
+//            pw.print("Accept: text/plain, text/html, text/*\r\n");
+//            pw.print("\r\n");
+//            pw.flush();
 
 //            String httpResponse = "HTTP/1.1 200 OK\r\n\r\n";
 //            request.getOutputStream().write(httpResponse.getBytes("UTF-8"));
@@ -58,22 +79,15 @@ public class RequestProcessor implements Runnable {
 //            // native line endings are uncertain so add them manually
 //            out.write(OUTPUT_HEADERS + OUTPUT.length() + OUTPUT_END_OF_HEADERS + OUTPUT);
 //            out.flush();
+
+
+            in.close();
+            out.close();
             request.close();
         } catch (Exception e) {
+            // 500 Error
             e.printStackTrace();
-
-            OutputStream outputStream = null;
-            try {
-                outputStream = request.getOutputStream();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-            PrintWriter pw = new PrintWriter(outputStream, false);
-            // native line endings are uncertain so add them manually
-            pw.print("GET " + " HTTP/1.0\r\n");
-            pw.print("Accept: text/plain, text/html, text/*\r\n");
-            pw.print("\r\n");
-            pw.flush();
+            ErrorHandler.handleErrorResponse(httpRequest, serverSetting, request, 500);
         }
     }
 }

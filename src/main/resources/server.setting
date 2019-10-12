@@ -4,7 +4,7 @@
         {
             "name": "default",
             "httpRoot": "~/",
-            "doc403": "",
+            "doc403": "src/main/resources/403.html",
             "doc404": "",
             "doc500": ""
         },

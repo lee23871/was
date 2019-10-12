@@ -14,7 +14,7 @@ public class ServerSetting {
 
     @Getter
     @Setter
-    private static class Host {
+    public static class Host {
         private String name;
         private String httpRoot;
         private String doc403;

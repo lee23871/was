@@ -16,6 +16,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thlee.work.http.RequestProcessor;
 import com.thlee.work.model.ServerSetting;
+import com.thlee.work.util.FileUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -39,8 +40,8 @@ public class HttpServer {
             while (true) {
                 try {
                     Socket request = server.accept();
-                    Runnable r = new RequestProcessor(serverSetting, INDEX_FILE, request);
-                    pool.submit(r);
+                    RequestProcessor r = new RequestProcessor(serverSetting, INDEX_FILE, request);
+                    r.start();
                 } catch (IOException ex) {
                     logger.log(Level.WARNING, "Error accepting connection", ex);
                 }
@@ -82,20 +83,6 @@ public class HttpServer {
     }
 
     private static String readFromSettingFile() {
-        StringBuilder sb = new StringBuilder();
-
-        try (BufferedReader br = Files.newBufferedReader(Paths.get("src/main/resources/server.setting"))) {
-
-            // read line by line
-            String line;
-            while ((line = br.readLine()) != null) {
-                sb.append(line);
-            }
-
-        } catch (IOException e) {
-            log.error("IOException: %s%n", e);
-        }
-
-        return sb.toString();
+        return FileUtil.readFile("src/main/resources/server.setting");
     }
 }

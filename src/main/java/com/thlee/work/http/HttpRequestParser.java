@@ -12,30 +12,34 @@ import com.thlee.work.util.StringUtils;
 
 public class HttpRequestParser {
 
-    public static HttpRequest parseHttpRequest(Socket request) throws IOException {
-        InputStream theInput = request.getInputStream();
-
-        InputStreamReader isr = new InputStreamReader(theInput);
-        BufferedReader br = new BufferedReader(isr);
+    public static HttpRequest parseHttpRequest(InputStream theInput) {
         HttpRequest.HttpRequestBuilder httpRequestBuilder = HttpRequest.builder();
 
-        String line = br.readLine();
-        if (line == null) {
-            return HttpRequest.builder().build();
-        }
+        try {
+            InputStreamReader isr = new InputStreamReader(theInput);
+            BufferedReader br = new BufferedReader(isr);
 
-        String[] requestInfo = line.split(" ");
-        httpRequestBuilder.httpMethod(HttpMethod.valueOf(requestInfo[0]));
-        httpRequestBuilder.uri(requestInfo[1]);
-
-        while ((line = br.readLine()) != null) {
-            if (StringUtils.isEmpty(line)) {
-                continue;
+            String line = br.readLine();
+            if (line == null) {
+                return HttpRequest.builder().build();
             }
 
-            if (line.startsWith("Host:")) {
-                httpRequestBuilder.host(line.substring(line.indexOf(" ") + 1));
+            String[] requestInfo = line.split(" ");
+            httpRequestBuilder.httpMethod(HttpMethod.valueOf(requestInfo[0]));
+            httpRequestBuilder.uri(requestInfo[1]);
+
+            while ((line = br.readLine()) != null) {
+                if (StringUtils.isEmpty(line)) {
+                    continue;
+                }
+
+                if (line.startsWith("Host:")) {
+                    httpRequestBuilder.host(line.substring(line.indexOf(" ") + 1));
+                    break;
+                }
             }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
         return httpRequestBuilder.build();
