@@ -10,7 +10,7 @@
         },
         {
             "name": "a.com",
-            "httpRoot": "src/main/resources/",
+            "httpRoot": "src/main/resources/a/",
             "doc403": "403.html",
             "doc404": "404.html",
             "doc500": "500.html"

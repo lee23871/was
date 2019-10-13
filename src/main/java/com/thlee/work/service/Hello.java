@@ -1,4 +1,4 @@
-package com.thlee.work;
+package com.thlee.work.service;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -12,7 +12,7 @@ public class Hello implements SimpleServlet {
     public void service(HttpRequest req, HttpResponse res) {
         Writer writer = res.getOutputStream();
         try {
-            writer.write("Hello, ");
+            writer.write("Service Hello, ");
             writer.write(req.getParameter("name"));
         } catch (IOException e) {
             e.printStackTrace();

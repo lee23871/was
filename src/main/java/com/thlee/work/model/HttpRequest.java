@@ -1,6 +1,7 @@
 package com.thlee.work.model;
 
 import java.io.BufferedReader;
+import java.util.Map;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -15,4 +16,9 @@ public class HttpRequest {
     private String uri;
     private String host;
     private BufferedReader inputStream;
+    private Map<String, String> parameters;
+
+    public String getParameter(String key) {
+        return parameters.getOrDefault(key, "");
+    }
 }
