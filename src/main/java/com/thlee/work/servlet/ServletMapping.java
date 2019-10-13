@@ -12,6 +12,7 @@ public class ServletMapping {
         mapping = new HashMap<>();
         mapping.put("/Hello", "Hello");
         mapping.put("/service.Hello", "service.Hello");
+        mapping.put("/service.Time", "service.TimeServlet");
     }
 
     public static String findMapping(String uri) {

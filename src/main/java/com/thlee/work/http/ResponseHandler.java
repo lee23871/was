@@ -24,7 +24,7 @@ public class ResponseHandler {
     private static final String OUTPUT_END_OF_HEADERS = "\r\n\r\n";
 
     public static void handleFileResponse(HttpRequest httpRequest, ServerSetting serverSetting, Socket request) {
-        Host hostInfo = HostUtil.getHost(httpRequest, serverSetting);
+        Host hostInfo = HostUtil.getHost(httpRequest.getHost(), serverSetting);
         String filePath = hostInfo.getHttpRoot() + httpRequest.getUri();
 
         String header = String.format(OUTPUT_HEADERS, 200);
@@ -41,7 +41,7 @@ public class ResponseHandler {
      * @param errorCode
      */
     public static void handleErrorResponse(HttpRequest httpRequest, ServerSetting serverSetting, Socket request, int errorCode) {
-        Host hostInfo = HostUtil.getHost(httpRequest, serverSetting);
+        Host hostInfo = HostUtil.getHost(httpRequest.getHost(), serverSetting);
 
         String filePath = hostInfo.getHttpRoot();
 

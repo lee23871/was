@@ -15,7 +15,7 @@ public class Validator404Impl implements Validator {
             return true;
         }
 
-        Host hostInfo = HostUtil.getHost(httpRequest, serverSetting);
+        Host hostInfo = HostUtil.getHost(httpRequest.getHost(), serverSetting);
         File file = new File(hostInfo.getHttpRoot() + httpRequest.getUri());
         return file.exists();
     }
