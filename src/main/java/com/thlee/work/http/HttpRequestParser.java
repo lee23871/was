@@ -18,6 +18,8 @@ public class HttpRequestParser {
      */
     public static HttpRequest parseHttpRequest(InputStream inputStream) {
         HttpRequest.HttpRequestBuilder httpRequestBuilder = HttpRequest.builder();
+        httpRequestBuilder.inputStream(new BufferedReader(
+            new InputStreamReader(inputStream)));
 
         try {
             InputStreamReader isr = new InputStreamReader(inputStream);

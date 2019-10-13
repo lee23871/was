@@ -2,11 +2,11 @@ package com.thlee.work.http;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
 import com.thlee.work.model.HttpRequest;
+import com.thlee.work.model.HttpResponse;
 import com.thlee.work.model.ServerSetting;
 import com.thlee.work.util.StringUtils;
 
@@ -16,27 +16,26 @@ import lombok.extern.slf4j.Slf4j;
 public class RequestProcessor implements Runnable {
 
     private ServerSetting serverSetting;
-    private Socket request;
+    private Socket socket;
 
-    public RequestProcessor(ServerSetting serverSetting, Socket request) {
+    public RequestProcessor(ServerSetting serverSetting, Socket socket) {
         this.serverSetting = serverSetting;
-        this.request = request;
+        this.socket = socket;
     }
 
     @Override
     public void run() {
 
         HttpRequest httpRequest = null;
-        PrintWriter out;
-        BufferedReader in;
+        HttpResponse httpResponse = null;
 
         try {
-            out = new PrintWriter(request.getOutputStream(), true);
-            in = new BufferedReader(
-                new InputStreamReader(request.getInputStream()));
-
             // Http Method, URI, Host 정보를 획득한다
-            httpRequest = HttpRequestParser.parseHttpRequest(request.getInputStream());
+            httpRequest = HttpRequestParser.parseHttpRequest(socket.getInputStream());
+            httpResponse = HttpResponse.builder()
+                .outputStream(new PrintWriter(socket.getOutputStream(), true))
+                .build();
+
             log.info(httpRequest.toString());
 
             if (StringUtils.isEmpty(httpRequest.getUri())) {
@@ -44,7 +43,7 @@ public class RequestProcessor implements Runnable {
             }
         } catch (IOException e) {
             e.printStackTrace();
-            ResponseHandler.handleErrorResponse(httpRequest, serverSetting, request, 500);
+            ResponseHandler.handleErrorResponse(httpRequest, serverSetting, socket, 500);
             return;
         }
 
@@ -56,22 +55,22 @@ public class RequestProcessor implements Runnable {
             int errorCode = ValidationFilter.validate(httpRequest, serverSetting);
 
             if (errorCode != 200) {
-                ResponseHandler.handleErrorResponse(httpRequest, serverSetting, request, errorCode);
+                ResponseHandler.handleErrorResponse(httpRequest, serverSetting, socket, errorCode);
                 return;
             }
 
             // File return
-            ResponseHandler.handleFileResponse(httpRequest, serverSetting, request);
+            ResponseHandler.handleFileResponse(httpRequest, serverSetting, socket);
 
         } catch (Exception e) {
             // 500 Error
             e.printStackTrace();
-            ResponseHandler.handleErrorResponse(httpRequest, serverSetting, request, 500);
+            ResponseHandler.handleErrorResponse(httpRequest, serverSetting, socket, 500);
         } finally {
             try {
-                in.close();
-                out.close();
-                request.close();
+                httpRequest.getInputStream().close();
+                httpResponse.getOutputStream().close();
+                socket.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
