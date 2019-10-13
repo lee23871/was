@@ -1,12 +1,8 @@
 package com.thlee.work;
 
-import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.logging.Level;
@@ -22,9 +18,9 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class HttpServer {
+
     private static final Logger logger = Logger.getLogger(HttpServer.class.getCanonicalName());
     private static final int NUM_THREADS = 50;
-    private static final String INDEX_FILE = "index.html";
     private final ServerSetting serverSetting;
     private final int port;
 
@@ -40,8 +36,8 @@ public class HttpServer {
             while (true) {
                 try {
                     Socket request = server.accept();
-                    RequestProcessor r = new RequestProcessor(serverSetting, INDEX_FILE, request);
-                    r.start();
+                    Runnable r = new RequestProcessor(serverSetting, request);
+                    pool.submit(r);
                 } catch (IOException ex) {
                     logger.log(Level.WARNING, "Error accepting connection", ex);
                 }
@@ -57,7 +53,9 @@ public class HttpServer {
         int port;
         try {
             port = serverSetting.getPort();
-            if (port < 0 || port > 65535) port = 80;
+            if (port < 0 || port > 65535) {
+                port = 80;
+            }
         } catch (RuntimeException ex) {
             port = 80;
         }

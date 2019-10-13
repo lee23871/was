@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.Socket;
 
 import com.thlee.work.model.HttpMethod;
 import com.thlee.work.model.HttpRequest;
@@ -12,11 +11,16 @@ import com.thlee.work.util.StringUtils;
 
 public class HttpRequestParser {
 
-    public static HttpRequest parseHttpRequest(InputStream theInput) {
+    /**
+     * Socket 의 input stream 에서 Http Request 와 관련된 정보를 가져오는 Method
+     * @param inputStream
+     * @return
+     */
+    public static HttpRequest parseHttpRequest(InputStream inputStream) {
         HttpRequest.HttpRequestBuilder httpRequestBuilder = HttpRequest.builder();
 
         try {
-            InputStreamReader isr = new InputStreamReader(theInput);
+            InputStreamReader isr = new InputStreamReader(inputStream);
             BufferedReader br = new BufferedReader(isr);
 
             String line = br.readLine();

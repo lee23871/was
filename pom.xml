@@ -7,7 +7,9 @@
   <groupId>com.thlee.project</groupId>
   <artifactId>was</artifactId>
   <version>1.0-SNAPSHOT</version>
+
   <build>
+    <finalName>was</finalName>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

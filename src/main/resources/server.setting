@@ -3,17 +3,17 @@
     "hosts": [
         {
             "name": "default",
-            "httpRoot": "~/",
-            "doc403": "src/main/resources/403.html",
-            "doc404": "",
-            "doc500": ""
+            "httpRoot": "src/main/resources/",
+            "doc403": "403.html",
+            "doc404": "404.html",
+            "doc500": "500.html"
         },
         {
             "name": "a.com",
-            "httpRoot": "~/",
-            "doc403": "",
-            "doc404": "",
-            "doc500": ""
+            "httpRoot": "src/main/resources/",
+            "doc403": "403.html",
+            "doc404": "404.html",
+            "doc500": "500.html"
         }
     ]
 }
