@@ -3,14 +3,14 @@
     "hosts": [
         {
             "name": "default",
-            "httpRoot": "src/main/resources/",
+            "httpRoot": "",
             "doc403": "403.html",
             "doc404": "404.html",
             "doc500": "500.html"
         },
         {
             "name": "a.com",
-            "httpRoot": "src/main/resources/a/",
+            "httpRoot": "a/",
             "doc403": "403.html",
             "doc404": "404.html",
             "doc500": "500.html"

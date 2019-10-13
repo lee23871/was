@@ -81,6 +81,6 @@ public class HttpServer {
     }
 
     private static String readFromSettingFile() {
-        return FileUtil.readFile("src/main/resources/server.setting");
+        return FileUtil.readFile("server.setting");
     }
 }

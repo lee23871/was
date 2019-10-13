@@ -32,14 +32,14 @@ public class HostUtilTest {
         defaultHost.setDoc403("403.html");
         defaultHost.setDoc404("404.html");
         defaultHost.setDoc500("500.html");
-        defaultHost.setHttpRoot("src/main/resources/");
+        defaultHost.setHttpRoot("");
 
         Host hostA = new Host();
         hostA.setName("a.com");
         hostA.setDoc403("403.html");
         hostA.setDoc404("404.html");
         hostA.setDoc500("500.html");
-        hostA.setHttpRoot("src/main/resources/a/");
+        hostA.setHttpRoot("a/");
 
         serverSetting.setHosts(Arrays.asList(defaultHost, hostA));
         return serverSetting;
