@@ -6,6 +6,7 @@ import com.thlee.work.model.HttpRequest;
 import com.thlee.work.model.ServerSetting;
 import com.thlee.work.model.ServerSetting.Host;
 import com.thlee.work.util.HostUtil;
+import com.thlee.work.util.ResourceHelper;
 
 public class Validator404Impl implements Validator {
 
@@ -15,8 +16,9 @@ public class Validator404Impl implements Validator {
             return true;
         }
 
+        ResourceHelper resourceHelper = new ResourceHelper();
         Host hostInfo = HostUtil.getHost(httpRequest.getHost(), serverSetting);
-        File file = new File(hostInfo.getHttpRoot() + httpRequest.getUri());
-        return file.exists();
+        File file = resourceHelper.getResourceFile(hostInfo.getHttpRoot() + httpRequest.getUri().substring(1));
+        return file != null && file.exists();
     }
 }

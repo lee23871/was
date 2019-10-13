@@ -25,7 +25,7 @@ public class ResponseHandler {
 
     public static void handleFileResponse(HttpRequest httpRequest, ServerSetting serverSetting, Socket request) {
         Host hostInfo = HostUtil.getHost(httpRequest.getHost(), serverSetting);
-        String filePath = hostInfo.getHttpRoot() + httpRequest.getUri();
+        String filePath = hostInfo.getHttpRoot() + httpRequest.getUri().substring(1);
 
         String header = String.format(OUTPUT_HEADERS, 200);
 
