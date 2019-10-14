@@ -24,7 +24,7 @@ public class FileUtil {
             }
 
         } catch (IOException e) {
-            log.error("IOException: %s%n", e);
+            log.error("IOException: ", e);
         }
 
         return sb.toString();

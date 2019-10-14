@@ -69,11 +69,9 @@ public class ResponseHandler {
             out.write(header + OUTPUT_END_OF_HEADERS + FileUtil.readFile(filePath));
             out.flush();
         } catch (FileNotFoundException ex) {
-            log.error("File not found");
-            ex.printStackTrace();
+            log.error("File not found: ", ex);
         } catch (IOException ioex) {
-            log.error("Socket Exception");
-            ioex.printStackTrace();
+            log.error("Socket Exception: ", ioex);
         }
     }
 }

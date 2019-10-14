@@ -8,6 +8,9 @@ import com.thlee.work.model.HttpRequest;
 import com.thlee.work.model.HttpResponse;
 import com.thlee.work.servlet.SimpleServlet;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class TimeServlet implements SimpleServlet {
 
     @Override
@@ -19,7 +22,7 @@ public class TimeServlet implements SimpleServlet {
                 + ":" + cal.get(Calendar.MINUTE)
                 + ":" + cal.get(Calendar.SECOND));
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Time Service Error: ", e);
         }
     }
 }

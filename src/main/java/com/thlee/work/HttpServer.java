@@ -66,12 +66,14 @@ public class HttpServer {
 
     private static ServerSetting getSetting() {
         ObjectMapper objectMapper = new ObjectMapper();
-        String settingStr = readFromSettingFile();
 
         try {
+            String settingStr = readFromSettingFile();
             return objectMapper.readValue(settingStr, ServerSetting.class);
         } catch (JsonProcessingException e) {
-            log.error("Setting file error");
+            log.error("Setting file error: ", e);
+        } catch (Exception ex) {
+            log.error("Setting file error: ", ex);
         }
 
         return null;

@@ -48,7 +48,7 @@ public class RequestProcessor implements Runnable {
                 return;
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("IOException: ", e);
             ResponseHandler.handleErrorResponse(httpRequest, serverSetting, socket, 500);
             return;
         }
@@ -77,7 +77,7 @@ public class RequestProcessor implements Runnable {
 
         } catch (Exception e) {
             // 500 Error
-            e.printStackTrace();
+            log.error("Exception: ", e);
             ResponseHandler.handleErrorResponse(httpRequest, serverSetting, socket, 500);
         } finally {
             try {
@@ -85,7 +85,7 @@ public class RequestProcessor implements Runnable {
                 httpResponse.getOutputStream().close();
                 socket.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                log.error("Exception: ", e);
             }
         }
     }

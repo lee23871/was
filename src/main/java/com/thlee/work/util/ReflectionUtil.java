@@ -21,20 +21,15 @@ public class ReflectionUtil {
             Method method = c.getMethod(METHOD_NAME, HttpRequest.class, HttpResponse.class);
             method.invoke(c.newInstance(), httpRequest, httpResponse);
         } catch (ClassNotFoundException e) {
-            log.error("ClassNotFoundException");
-            e.printStackTrace();
+            log.error("ClassNotFoundException: ", e);
         } catch (NoSuchMethodException e) {
-            log.error("NoSuchMethodException");
-            e.printStackTrace();
+            log.error("NoSuchMethodException: ", e);
         } catch (IllegalAccessException e) {
-            log.error("IllegalAccessException");
-            e.printStackTrace();
+            log.error("IllegalAccessException: ", e);
         } catch (InvocationTargetException e) {
-            log.error("InvocationTargetException");
-            e.printStackTrace();
+            log.error("InvocationTargetException: ", e);
         } catch (InstantiationException e) {
-            log.error("InstantiationException");
-            e.printStackTrace();
+            log.error("InstantiationException: ", e);
         }
     }
 }

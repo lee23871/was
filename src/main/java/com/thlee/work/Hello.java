@@ -7,6 +7,9 @@ import com.thlee.work.model.HttpRequest;
 import com.thlee.work.model.HttpResponse;
 import com.thlee.work.servlet.SimpleServlet;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class Hello implements SimpleServlet {
 
     @Override
@@ -16,7 +19,7 @@ public class Hello implements SimpleServlet {
             writer.write("Hello, ");
             writer.write(req.getParameter("name"));
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Hello Service Error: ", e);
         }
     }
 }

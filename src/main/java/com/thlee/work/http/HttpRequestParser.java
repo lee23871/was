@@ -11,6 +11,9 @@ import com.thlee.work.model.HttpMethod;
 import com.thlee.work.model.HttpRequest;
 import com.thlee.work.util.StringUtils;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class HttpRequestParser {
 
     /**
@@ -59,7 +62,7 @@ public class HttpRequestParser {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Exception: ", e);
         }
 
         return httpRequestBuilder.build();
