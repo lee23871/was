@@ -1,6 +1,6 @@
 package com.thlee.work.http;
 
-import java.io.File;
+import java.io.InputStream;
 
 import com.thlee.work.model.HttpRequest;
 import com.thlee.work.model.ServerSetting;
@@ -18,7 +18,8 @@ public class Validator404Impl implements Validator {
 
         ResourceHelper resourceHelper = new ResourceHelper();
         Host hostInfo = HostUtil.getHost(httpRequest.getHost(), serverSetting);
-        File file = resourceHelper.getResourceFile(hostInfo.getHttpRoot() + httpRequest.getUri().substring(1));
-        return file != null && file.exists();
+        InputStream inputStream = resourceHelper
+            .getResourceFile(hostInfo.getHttpRoot() + httpRequest.getUri().substring(1));
+        return inputStream != null;
     }
 }

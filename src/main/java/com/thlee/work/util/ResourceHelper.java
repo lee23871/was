@@ -1,16 +1,10 @@
 package com.thlee.work.util;
 
-import java.io.File;
-import java.net.URL;
+import java.io.InputStream;
 
 public class ResourceHelper {
 
-    public File getResourceFile(String filePath) {
-        URL resource = getClass().getClassLoader().getResource(filePath);
-        if (resource == null) {
-            return null;
-        }
-
-        return new File(resource.getFile());
+    public InputStream getResourceFile(String filePath) {
+        return getClass().getClassLoader().getResourceAsStream(filePath);
     }
 }

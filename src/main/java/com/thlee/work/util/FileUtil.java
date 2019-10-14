@@ -3,6 +3,8 @@ package com.thlee.work.util;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -14,9 +16,9 @@ public class FileUtil {
     public static String readFile(String path) {
 
         ResourceHelper resourceHelper = new ResourceHelper();
-        File file = resourceHelper.getResourceFile(path);
+        InputStream fileInputStream = resourceHelper.getResourceFile(path);
         StringBuilder sb = new StringBuilder();
-        try (BufferedReader br = Files.newBufferedReader(Paths.get(file.getPath()))) {
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(fileInputStream, "UTF-8"))) {
 
             // read line by line
             String line;
