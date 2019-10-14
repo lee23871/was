@@ -15,8 +15,6 @@ public class HttpRequestParser {
 
     /**
      * Socket 의 input stream 에서 Http Request 와 관련된 정보를 가져오는 Method
-     * @param inputStream
-     * @return
      */
     public static HttpRequest parseHttpRequest(InputStream inputStream) {
         HttpRequest.HttpRequestBuilder httpRequestBuilder = HttpRequest.builder();

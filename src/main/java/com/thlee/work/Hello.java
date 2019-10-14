@@ -8,6 +8,7 @@ import com.thlee.work.model.HttpResponse;
 import com.thlee.work.servlet.SimpleServlet;
 
 public class Hello implements SimpleServlet {
+
     @Override
     public void service(HttpRequest req, HttpResponse res) {
         Writer writer = res.getOutputStream();
