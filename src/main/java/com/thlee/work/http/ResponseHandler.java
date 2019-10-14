@@ -23,6 +23,12 @@ public class ResponseHandler {
         "Content-Length: ";
     private static final String OUTPUT_END_OF_HEADERS = "\r\n\r\n";
 
+    /**
+     * File Response 를 처리한다.
+     * @param httpRequest
+     * @param serverSetting
+     * @param request
+     */
     public static void handleFileResponse(HttpRequest httpRequest, ServerSetting serverSetting, Socket request) {
         Host hostInfo = HostUtil.getHost(httpRequest.getHost(), serverSetting);
         String filePath = hostInfo.getHttpRoot() + httpRequest.getUri().substring(1);

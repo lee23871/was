@@ -14,6 +14,12 @@ public class ReflectionUtil {
     private static final String BASE_PACKAGE = "com.thlee.work.";
     public static final String METHOD_NAME = "service";
 
+    /**
+     * 해당 Class 의 service method 를 실행한다.
+     * @param classPath
+     * @param httpRequest
+     * @param httpResponse
+     */
     public static void invoke(String classPath, HttpRequest httpRequest, HttpResponse httpResponse) {
         Class<?> c;
         try {
