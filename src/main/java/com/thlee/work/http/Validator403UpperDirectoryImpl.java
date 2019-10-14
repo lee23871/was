@@ -3,7 +3,7 @@ package com.thlee.work.http;
 import com.thlee.work.model.HttpRequest;
 import com.thlee.work.model.ServerSetting;
 
-public class Validator403Impl implements Validator {
+public class Validator403UpperDirectoryImpl implements Validator {
 
     @Override
     public boolean validate(HttpRequest httpRequest, ServerSetting serverSetting) {
@@ -11,6 +11,6 @@ public class Validator403Impl implements Validator {
             return true;
         }
 
-        return !(httpRequest.getUri().startsWith("/../") || httpRequest.getUri().endsWith(".exe"));
+        return !httpRequest.getUri().startsWith("/../");
     }
 }
